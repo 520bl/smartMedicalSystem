@@ -694,3 +694,12 @@ export function callNextPatient(appointmentId) {
     params: { appointmentId }
   })
 }
+
+// ==================== 管理端工作台 ====================
+
+export function getAdminDashboardStats() {
+  return request({
+    url: '/admin/dashboard/stats',
+    method: 'get'
+  })
+}

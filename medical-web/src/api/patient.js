@@ -38,3 +38,12 @@ export function payMyPrescription(prescriptionId) {
     method: 'put'
   })
 }
+
+// ==================== 患者首页 ====================
+
+export function getPatientDashboardStats() {
+  return request({
+    url: '/patient/dashboard/stats',
+    method: 'get'
+  })
+}

@@ -65,7 +65,7 @@ const routes = [
         component: () => import('@/views/user/ChangePassword.vue'),
         meta: { title: '修改密码' }
       },
-      { path: 'doctor/dashboard', component: Placeholder, meta: { title: '医生工作台' } },
+      { path: 'doctor/dashboard', component: () => import('@/views/doctor/DoctorDashboard.vue'), meta: { title: '医生工作台' } },
       {
         path: 'doctor/schedule',
         component: () => import('@/views/doctor/MySchedule.vue'),
@@ -74,7 +74,7 @@ const routes = [
       { path: 'doctor/queue', component: () => import('@/views/doctor/QueueList.vue'), meta: { title: '待诊队列' } },
       { path: 'doctor/medical-record', component: () => import('@/views/doctor/MedicalRecordList.vue'), meta: { title: '病历书写' } },
       { path: 'doctor/prescription', component: () => import('@/views/doctor/PrescriptionCreate.vue'), meta: { title: '处方开立' } },
-      { path: 'patient/dashboard', component: Placeholder, meta: { title: '患者首页' } },
+      { path: 'patient/dashboard', component: () => import('@/views/patient/PatientDashboard.vue'), meta: { title: '患者首页' } },
       { path: 'patient/appointment', component: () => import('@/views/admin/AppointmentBooking.vue'), meta: { title: '我要预约' } },
       { path: 'patient/my-appointment', component: () => import('@/views/patient/MyAppointmentList.vue'), meta: { title: '我的预约' } },
       {
@@ -112,7 +112,7 @@ const routes = [
         component: () => import('@/views/reception/Refund.vue'),
         meta: { title: '退费' }
       },
-      { path: 'nurse/dashboard', component: Placeholder, meta: { title: '护士工作台' } },
+      { path: 'nurse/dashboard', component: () => import('@/views/nurse/NurseDashboard.vue'), meta: { title: '护士工作台' } },
       { path: 'nurse/prescription', component: () => import('@/views/nurse/NursePrescriptionPending.vue'), meta: { title: '待发药' } },
       { path: 'nurse/dispense', component: () => import('@/views/nurse/NurseDispenseList.vue'), meta: { title: '发药确认' } },
       { path: 'nurse/inventory', component: Placeholder, meta: { title: '药品盘点' } }

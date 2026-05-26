@@ -61,3 +61,11 @@ export const deleteMedicalRecord = (recordId) => {
         method: 'delete'
     })
 }
+
+// 工作台统计
+export const getDoctorDashboardStats = () => {
+    return request({
+        url: '/doctor/dashboard/stats',
+        method: 'get'
+    })
+}

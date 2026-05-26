@@ -11,32 +11,32 @@
       </div>
     </div>
     <!-- 统计卡片 -->
-    <el-row :gutter="20" class="dashboard-row">
+    <el-row :gutter="20" class="dashboard-row" v-loading="loading">
       <el-col :span="6">
         <el-card class="stat-card stat-blue" shadow="hover">
           <i class="fa-solid fa-calendar-check stat-icon"></i>
-          <div class="stat-num">{{ stats.todayAppointments }}</div>
+          <div class="stat-num">{{ stats.todayAppointments ?? 0 }}</div>
           <div class="stat-desc">今日预约</div>
         </el-card>
       </el-col>
       <el-col :span="6">
         <el-card class="stat-card stat-green" shadow="hover">
           <i class="fa-solid fa-user-doctor stat-icon"></i>
-          <div class="stat-num">{{ stats.todayVisits }}</div>
+          <div class="stat-num">{{ stats.todayVisits ?? 0 }}</div>
           <div class="stat-desc">今日就诊</div>
         </el-card>
       </el-col>
       <el-col :span="6">
         <el-card class="stat-card stat-orange" shadow="hover">
           <i class="fa-solid fa-pills stat-icon"></i>
-          <div class="stat-num">{{ stats.pendingDispense }}</div>
+          <div class="stat-num">{{ stats.pendingDispense ?? 0 }}</div>
           <div class="stat-desc">待发药</div>
         </el-card>
       </el-col>
       <el-col :span="6">
         <el-card class="stat-card stat-red" shadow="hover">
           <i class="fa-solid fa-money-bill-wave stat-icon"></i>
-          <div class="stat-num">¥{{ stats.todayIncome }}</div>
+          <div class="stat-num">¥{{ formatMoney(stats.todayIncome) }}</div>
           <div class="stat-desc">今日收入</div>
         </el-card>
       </el-col>
@@ -68,10 +68,12 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { getAdminDashboardStats } from '@/api/admin'
 
 const router = useRouter()
+const loading = ref(false)
 
 const userInfo = computed(() => {
   try {
@@ -92,12 +94,7 @@ const roleName = computed(() => {
   return roles.length ? roleMap[roles[0]] || roles[0] : ''
 })
 
-const stats = ref({
-  todayAppointments: 0,
-  todayVisits: 0,
-  pendingDispense: 0,
-  todayIncome: 0
-})
+const stats = ref({})
 
 const quickEntries = [
   { title: '科室管理', icon: 'fa-solid fa-building', path: '/admin/dept' },
@@ -110,9 +107,27 @@ const activities = ref([
   { time: '2026-03-19 10:00', content: '系统初始化完成，欢迎使用', type: 'primary' }
 ])
 
+const formatMoney = (val) => {
+  const n = Number(val)
+  if (Number.isNaN(n)) return '0.00'
+  return n.toFixed(2)
+}
+
+const loadStats = async () => {
+  loading.value = true
+  try {
+    const res = await getAdminDashboardStats()
+    stats.value = res || {}
+  } finally {
+    loading.value = false
+  }
+}
+
 const goto = (path) => {
   router.push(path)
 }
+
+onMounted(loadStats)
 </script>
 
 <style scoped>
